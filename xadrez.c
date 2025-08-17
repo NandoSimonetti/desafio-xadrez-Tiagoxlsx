@@ -1,32 +1,50 @@
 #include <stdio.h>
 
-// Desafio de Xadrez - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
-// O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
+#define TABULEIRO 8  // Tamanho do tabuleiro 8x8
+
+// Função auxiliar para imprimir o tabuleiro com uma peça
+void imprimirTabuleiro(int x, int y) {
+    for (int i = 0; i < TABULEIRO; i++) {
+        for (int j = 0; j < TABULEIRO; j++) {
+            if (i == x && j == y)
+                printf(" P "); // P = posição da peça
+            else
+                printf(" . ");
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
 
 int main() {
-    // Nível Novato - Movimentação das Peças
-    // Sugestão: Declare variáveis constantes para representar o número de casas que cada peça pode se mover.
+    // Exemplo: posição inicial (linha, coluna)
+    int linha = 3, coluna = 3;
 
-    // Implementação de Movimentação do Bispo
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação do Bispo em diagonal.
+    printf("Movimentação do Bispo (diagonal):\n");
+    // Bispo pode andar em diagonais → 4 direções
+    for (int i = 1; i < TABULEIRO; i++) {
+        if (linha + i < TABULEIRO && coluna + i < TABULEIRO) 
+            imprimirTabuleiro(linha + i, coluna + i); // diagonal inferior direita
 
-    // Implementação de Movimentação da Torre
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Torre para a direita.
+        if (linha - i >= 0 && coluna - i >= 0) 
+            imprimirTabuleiro(linha - i, coluna - i); // diagonal superior esquerda
 
-    // Implementação de Movimentação da Rainha
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Rainha para a esquerda.
+        if (linha + i < TABULEIRO && coluna - i >= 0) 
+            imprimirTabuleiro(linha + i, coluna - i); // diagonal inferior esquerda
 
-    // Nível Aventureiro - Movimentação do Cavalo
-    // Sugestão: Utilize loops aninhados para simular a movimentação do Cavalo em L.
-    // Um loop pode representar a movimentação horizontal e outro vertical.
+        if (linha - i >= 0 && coluna + i < TABULEIRO) 
+            imprimirTabuleiro(linha - i, coluna + i); // diagonal superior direita
+    }
 
-    // Nível Mestre - Funções Recursivas e Loops Aninhados
-    // Sugestão: Substitua as movimentações das peças por funções recursivas.
-    // Exemplo: Crie uma função recursiva para o movimento do Bispo.
+    printf("Movimentação da Torre (para direita):\n");
+    for (int j = coluna + 1; j < TABULEIRO; j++) {
+        imprimirTabuleiro(linha, j);
+    }
 
-    // Sugestão: Implemente a movimentação do Cavalo utilizando loops com variáveis múltiplas e condições avançadas.
-    // Inclua o uso de continue e break dentro dos loops.
+    printf("Movimentação da Rainha (para esquerda):\n");
+    for (int j = coluna - 1; j >= 0; j--) {
+        imprimirTabuleiro(linha, j);
+    }
 
     return 0;
 }

@@ -1,50 +1,105 @@
 #include <stdio.h>
 
-#define TABULEIRO 8  // Tamanho do tabuleiro 8x8
+/*
+    Tema 4 - Movimento de Peças de Xadrez (Nível Avançado)
 
-// Função auxiliar para imprimir o tabuleiro com uma peça
-void imprimirTabuleiro(int x, int y) {
-    for (int i = 0; i < TABULEIRO; i++) {
-        for (int j = 0; j < TABULEIRO; j++) {
-            if (i == x && j == y)
-                printf(" P "); // P = posição da peça
-            else
-                printf(" . ");
+    - Torre, Bispo e Rainha: movimentação com recursividade
+    - Cavalo: movimentação em "L" com loops aninhados (2 para cima, 1 para direita)
+    - Bispo: também implementado com recursividade + loops aninhados
+*/
+
+// ------------------ Funções Recursivas ------------------
+
+// Torre: move apenas para cima (exemplo)
+void moverTorre(int casas) {
+    if (casas <= 0) return; // Caso base
+    printf("Cima\n");
+    moverTorre(casas - 1); // chamada recursiva
+}
+
+// Bispo: movimento diagonal (ex: cima + direita)
+// Recursividade
+void moverBispoRecursivo(int casas) {
+    if (casas <= 0) return; // Caso base
+    printf("Cima\n");
+    printf("Direita\n");
+    moverBispoRecursivo(casas - 1);
+}
+
+// Rainha: combina torre + bispo (exemplo, para simplificar: move como torre)
+void moverRainha(int casas) {
+    if (casas <= 0) return;
+    printf("Cima\n");
+    moverRainha(casas - 1);
+}
+
+// ------------------ Loops Complexos ------------------
+
+// Cavalo: movimento em L -> 2 para cima + 1 para direita
+void moverCavalo() {
+    int passosVertical = 2;
+    int passosHorizontal = 1;
+
+    // Loop externo para o movimento vertical
+    for (int i = 0; i < passosVertical; i++) {
+        if (i == 1) {
+            // Apenas para exemplo, mostrar uso de continue
+            continue;
         }
-        printf("\n");
+        printf("Cima\n");
+    }
+
+    // Loop interno para o movimento horizontal
+    for (int j = 0; j < passosHorizontal; j++) {
+        if (j > 1) break; // Exemplo de controle extra
+        printf("Direita\n");
+    }
+
+    printf("\n"); // separação
+}
+
+// ------------------ Loops Aninhados no Bispo ------------------
+
+// Bispo com loops aninhados (vertical + horizontal)
+void moverBispoLoop(int casas) {
+    for (int i = 0; i < casas; i++) {
+        printf("Cima\n"); // Loop externo = vertical
+        for (int j = 0; j < 1; j++) {
+            printf("Direita\n"); // Loop interno = horizontal
+        }
     }
     printf("\n");
 }
 
+// ------------------ Função Principal ------------------
 int main() {
-    // Exemplo: posição inicial (linha, coluna)
-    int linha = 3, coluna = 3;
+    int casasTorre = 3;
+    int casasBispo = 2;
+    int casasRainha = 4;
 
-    printf("Movimentação do Bispo (diagonal):\n");
-    // Bispo pode andar em diagonais → 4 direções
-    for (int i = 1; i < TABULEIRO; i++) {
-        if (linha + i < TABULEIRO && coluna + i < TABULEIRO) 
-            imprimirTabuleiro(linha + i, coluna + i); // diagonal inferior direita
+    // Torre com recursão
+    printf("Movimento da Torre:\n");
+    moverTorre(casasTorre);
+    printf("\n");
 
-        if (linha - i >= 0 && coluna - i >= 0) 
-            imprimirTabuleiro(linha - i, coluna - i); // diagonal superior esquerda
+    // Bispo com recursão
+    printf("Movimento do Bispo (recursivo):\n");
+    moverBispoRecursivo(casasBispo);
+    printf("\n");
 
-        if (linha + i < TABULEIRO && coluna - i >= 0) 
-            imprimirTabuleiro(linha + i, coluna - i); // diagonal inferior esquerda
+    // Rainha com recursão
+    printf("Movimento da Rainha:\n");
+    moverRainha(casasRainha);
+    printf("\n");
 
-        if (linha - i >= 0 && coluna + i < TABULEIRO) 
-            imprimirTabuleiro(linha - i, coluna + i); // diagonal superior direita
-    }
+    // Cavalo com loops aninhados
+    printf("Movimento do Cavalo:\n");
+    moverCavalo();
 
-    printf("Movimentação da Torre (para direita):\n");
-    for (int j = coluna + 1; j < TABULEIRO; j++) {
-        imprimirTabuleiro(linha, j);
-    }
-
-    printf("Movimentação da Rainha (para esquerda):\n");
-    for (int j = coluna - 1; j >= 0; j--) {
-        imprimirTabuleiro(linha, j);
-    }
+    // Bispo com loops aninhados
+    printf("Movimento do Bispo (loops aninhados):\n");
+    moverBispoLoop(casasBispo);
 
     return 0;
 }
+
